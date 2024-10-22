@@ -1,0 +1,7 @@
+<div *ngIf="author">
+    <h2>Detalhes do Autor</h2>
+    <p>Nome do Autor : {{ author.name }}</p>
+  
+  <div *ngIf="!author">
+    <p>Carregando Autor...</p>
+  </div>

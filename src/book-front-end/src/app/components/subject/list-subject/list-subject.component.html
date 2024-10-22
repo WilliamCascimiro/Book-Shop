@@ -1,0 +1,27 @@
+<h2>Lista de Assuntos</h2>
+
+<div *ngIf="subjects.length > 0; else noSubjects">
+  <table>
+    <thead>
+      <tr>
+        <th>Assunto</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let subject of subjects">
+        <td>{{ subject.description }}</td>
+        <!-- Aqui você pode adicionar mais colunas para ações, como Editar ou Excluir -->
+        <td>
+            <button (click)="detailsSubject(subject.id)">Detalhes</button>
+            <button (click)="editSubject(subject.id)">Editar</button>
+            <button (click)="deleteSubject(subject.id)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noSubjects>
+  <p>Nenhum assunto encontrado.</p>
+</ng-template>

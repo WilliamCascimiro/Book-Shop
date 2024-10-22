@@ -1,0 +1,45 @@
+<!-- create-book/create-book.component.html -->
+<div>
+  <h2>Criar Livro</h2>
+
+  <div>
+    <label>Título:</label>
+    <input type="text" [(ngModel)]="title" required />
+  </div>
+
+  <div>
+    <label>Valor:</label>
+    <input type="number" [(ngModel)]="value" required />
+  </div>
+
+  <div>
+    <label>Forma de Compra:</label>
+    <input type="text" [(ngModel)]="purchaseForm" required />
+  </div>
+
+  <br/><br/>
+
+  <div>
+    <label>Autores:</label>
+    <div *ngFor="let author of authors">
+      <input type="checkbox" 
+             [checked]="author.isChecked" 
+             (change)="onAuthorChange(author)" /> {{ author.name }}
+    </div>
+  </div>
+
+  <br/><br/>
+
+  <div>
+    <label>Assuntos:</label>
+    <div *ngFor="let subject of subjects">
+      <input type="checkbox" 
+             [checked]="subject.isChecked" 
+             (change)="onSubjectChange(subject)" /> {{ subject.description }}
+    </div>
+  </div>
+  
+  <br/>
+
+  <button (click)="onSubmit()">Salvar</button>
+</div>

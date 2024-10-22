@@ -1,0 +1,27 @@
+<h2>Lista de Autores</h2>
+
+<div *ngIf="authors.length > 0; else noAuthors">
+  <table>
+    <thead>
+      <tr>
+        <th>Nome do Autor</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let author of authors">
+        <td>{{ author.name }}</td>
+        <!-- Aqui você pode adicionar mais colunas para ações, como Editar ou Excluir -->
+        <td>
+            <button (click)="detailsAuthor(author.id)">Detalhes</button>
+            <button (click)="editAuthor(author.id)">Editar</button>
+            <button (click)="deleteAuthor(author.id)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noAuthors>
+  <p>Nenhum autor encontrado.</p>
+</ng-template>

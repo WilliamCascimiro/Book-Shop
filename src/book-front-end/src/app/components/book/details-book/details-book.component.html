@@ -1,0 +1,20 @@
+<div *ngIf="bookDetails">
+    <h2>Detalhes do livro</h2>
+    <p>Nome do Livro: {{ bookDetails.title }}</p>
+    <p>Valor: {{ bookDetails.value | currency }}</p>
+    <p>Forma de Compra: {{ bookDetails.purchaseForm }}</p>
+  
+    <h3>Autores</h3>
+    <ul>
+      <li *ngFor="let author of bookDetails.authorDetails">{{ author.name }}</li>
+    </ul>
+  
+    <h3>Assuntos</h3>
+    <ul>
+      <li *ngFor="let subject of bookDetails.subjectDetails">{{ subject.description }}</li>
+    </ul>
+  </div>
+  
+  <div *ngIf="!bookDetails">
+    <p>Carregando detalhes do livro...</p>
+  </div>

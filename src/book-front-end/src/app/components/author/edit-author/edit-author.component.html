@@ -1,0 +1,16 @@
+<div *ngIf="subject">
+    <h2>Editar Autor</h2>
+  
+    <form (ngSubmit)="updateSubject()">
+      <div>
+        <label for="description">Descrição:</label>
+        <input type="text" id="description" [(ngModel)]="subject.name" name="description" required>
+      </div>
+  
+      <button type="submit">Salvar</button>
+    </form>
+  </div>
+  
+  <div *ngIf="!subject">
+    <p>Carregando assunto...</p>
+  </div>

@@ -1,0 +1,44 @@
+<div *ngIf="bookDetails">
+    <h2>Editar livro</h2>
+    <form (ngSubmit)="onSubmit()">
+
+      <div>
+        <label for="title">Nome do Livro:</label>
+        <input id="title" [(ngModel)]="bookDetails.title" name="title" required />
+      </div>
+
+      <div>
+        <label for="value">Valor:</label>
+        <input id="value" type="number" [(ngModel)]="bookDetails.value" name="value" required />
+      </div>
+  
+      <div>
+        <label for="purchaseForm">Forma de Compra:</label>
+        <input id="purchaseForm" [(ngModel)]="bookDetails.purchaseForm" name="purchaseForm" required />
+      </div>
+
+      <button type="submit" >Salvar</button>
+    
+
+    <h3>Autores</h3>
+    <ul>
+      <li *ngFor="let author of allAuthors">
+        <input type="checkbox" [(ngModel)]="author.isChecked" name="author-{{author.id}}" >
+        {{ author.name }}
+      </li>
+    </ul>
+  
+    <h3>Assuntos</h3>
+    <ul>
+      <li *ngFor="let subject of allSubjects">
+        <input type="checkbox" [(ngModel)]="subject.isChecked" name="subject-{{subject.id}}"  >
+        {{ subject.description }}
+      </li>
+    </ul>
+    <button type="submit" [disabled]="isSubmitting">Salvar</button>
+
+  </form>
+</div>
+  <div *ngIf="!bookDetails">
+    <p>Carregando detalhes do livro...</p>
+  </div>

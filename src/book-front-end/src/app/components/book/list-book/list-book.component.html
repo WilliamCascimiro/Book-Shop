@@ -1,0 +1,26 @@
+<h2>Lista de Livros</h2>
+
+<div *ngIf="books.length > 0; else noBooks">
+  <table>
+    <thead>
+      <tr>
+        <th>Nome do livro</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of books">
+        <td>{{ book.title }}</td>
+        <td>
+            <button (click)="detailsBook(book.id)">Detalhes</button>
+            <button (click)="editBook(book.id)">Editar</button>
+            <button (click)="deleteBook(book.id)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noBooks>
+  <p>Nenhum livro encontrado.</p>
+</ng-template>

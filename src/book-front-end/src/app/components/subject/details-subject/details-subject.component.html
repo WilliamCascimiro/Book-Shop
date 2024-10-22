@@ -1,0 +1,9 @@
+<div *ngIf="subject">
+    <h2>Detalhes do assunto</h2>
+    <p>Assunto: {{ subject.description }}</p>
+  
+    
+  
+  <div *ngIf="!subject">
+    <p>Carregando assunto...</p>
+  </div>
