@@ -1,8 +1,8 @@
 <div *ngIf="bookDetails">
     <h2>Detalhes do livro</h2>
-    <p>Nome do Livro: {{ bookDetails.title }}</p>
-    <p>Valor: {{ bookDetails.value | currency }}</p>
-    <p>Forma de Compra: {{ bookDetails.purchaseForm }}</p>
+    <p>Título: <span style="margin: 54px;"></span> {{ bookDetails.title }}</p>
+    <p>Valor: <span style="margin: 56px;"></span>{{ bookDetails.value | currency }}</p>
+    <p>Forma de Compra: <span style="margin: 10px;"></span>{{ bookDetails.purchaseForm }}</p>
   
     <h3>Autores</h3>
     <ul>

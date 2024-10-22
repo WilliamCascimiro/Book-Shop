@@ -24,7 +24,7 @@ namespace Book.API.Controllers
         {
             var success = await _authorService.CreateAsync(createAuthorRequest);
 
-            if (success)
+            if (!success)
                 return BadRequest();
 
             return Ok();

@@ -5,6 +5,7 @@ import { Author } from '../models/author';
 import { Book } from '../models/book';
 import { BookDetails } from '../models/book/book-details';
 import { UpdateBookRequest } from '../models/book/update-book-request';
+import { CreateBookRequest } from '../models/create-book-request';
  
 
 @Injectable({
@@ -14,6 +15,10 @@ export class BookService {
   private apiUrl = 'https://localhost:44398/book';
 
   constructor(private http: HttpClient) { }
+
+  createBook(createAuthorComponent: CreateBookRequest): Observable<any> {
+    return this.http.post<Book[]>(this.apiUrl, createAuthorComponent);
+  }
 
   getBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(this.apiUrl);

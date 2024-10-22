@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Subject } from '../models/subject';
+import { CreateSubjectRequest } from '../models/create-subject-request';
  
 
 @Injectable({
@@ -11,6 +12,10 @@ export class SubjectService {
   private apiUrl = 'https://localhost:44398/subject';
 
   constructor(private http: HttpClient) { }
+
+  createSubject(createAuthorComponent: CreateSubjectRequest): Observable<any> {
+    return this.http.post<Subject[]>(this.apiUrl, createAuthorComponent);
+  }
 
   getSubjects(): Observable<Subject[]> {
     return this.http.get<Subject[]>(this.apiUrl);

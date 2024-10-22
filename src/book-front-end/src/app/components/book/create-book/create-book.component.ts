@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { BookService } from '../../../services/book.service';
 import { AuthorService } from '../../../services/author.service';
 import { SubjectService } from '../../../services/subject.service';
+import { Router } from '@angular/router';
 
 
 
@@ -26,7 +27,7 @@ export class CreateBookComponent implements OnInit {
 
   subjects: Subject[] = [];
 
-  constructor(private http: HttpClient, private authorService: AuthorService, private subjectService: SubjectService) {}
+  constructor(private http: HttpClient, private bookService: BookService, private authorService: AuthorService, private subjectService: SubjectService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadAuthors();
@@ -88,19 +89,14 @@ export class CreateBookComponent implements OnInit {
       subjectIds: this.subjectIds
     };
 
-    console.log(createBookRequest);
-
-    this.http.post('https://localhost:44398/book', createBookRequest)
-    .subscribe(
-      response => {
-        console.log('Livro criado com sucesso!', response);
-        // Redirecionar ou mostrar mensagem de sucesso
+    this.bookService.createBook(createBookRequest).subscribe(
+      (response) => {
+        console.log('Assunto atualizado com sucesso:', response);
+        this.router.navigate(['/list-book']);
       },
-      error => {
-        console.error('Erro ao criar livro', error);
-        // Mostrar mensagem de erro
+      (error) => {
+        console.error('Erro ao atualizar o assunto:', error);
       }
-    );
-    
+    );    
   }
 }

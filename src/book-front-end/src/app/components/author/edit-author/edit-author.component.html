@@ -3,10 +3,11 @@
   
     <form (ngSubmit)="updateSubject()">
       <div>
-        <label for="description">Descrição:</label>
+        <label for="description">Autor:</label>
+        <span style="margin: 12px;"></span>
         <input type="text" id="description" [(ngModel)]="subject.name" name="description" required>
       </div>
-  
+      <br/>
       <button type="submit">Salvar</button>
     </form>
   </div>

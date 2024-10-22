@@ -144,9 +144,7 @@ namespace Book.Application.Services
 
                 var bookToUpdate = await _bookRepository.GetById(id);
                 if (bookToUpdate == null)
-                {
                     return false;
-                }
 
                 bookToUpdate.Title = updateBookRequest.Title;
                 bookToUpdate.Value = updateBookRequest.Value;

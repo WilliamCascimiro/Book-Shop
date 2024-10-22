@@ -22,7 +22,7 @@ namespace Book.API.Controllers
         {
             var success = await _subjectService.CreateAsync(createSubjectRequest);
 
-            if (success)
+            if (!success)
                 return BadRequest();
 
             return Ok();

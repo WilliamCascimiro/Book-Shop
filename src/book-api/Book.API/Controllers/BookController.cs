@@ -22,7 +22,7 @@ namespace Book.API.Controllers
         {
             var success = await _bookService.CreateAsync(createBookRequest);
 
-            if (success)
+            if (!success)
                 return BadRequest();
 
             return Ok();
@@ -55,9 +55,7 @@ namespace Book.API.Controllers
             var result = await _bookService.Delete(id);
 
             if (!result)
-            {
                 return NotFound("Author not found");
-            }
 
             return Ok();
         }
@@ -77,19 +75,5 @@ namespace Book.API.Controllers
 
             return Ok();
         }
-
-        //[Route("CreateReport")]
-        //public IActionResult CreateReport()
-        //{
-        //    var caminhoReport = Path.Combine(_webHostEnv.WebRootPath, @"reports\ReportMvc.frx");
-        //    var reportFile = caminhoReport;
-        //    var freport = new FastReport.Report();
-        //    var productList = _productService.GetProducts();
-
-        //    freport.Dictionary.RegisterBusinessObject(productList, "productList", 10, true);
-        //    freport.Report.Save(reportFile);
-
-        //    return Ok($" Relatorio gerado : {caminhoReport}");
-        //}
     }
 }
