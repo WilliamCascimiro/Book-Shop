@@ -3,6 +3,7 @@ using Book.Application.DTOs.Book;
 using Book.Application.Interface;
 using Book.Domain.Entities;
 using Book.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Book.Application.Services
 {
@@ -11,12 +12,14 @@ namespace Book.Application.Services
         private readonly IBookRepository _bookRepository;
         private readonly IBookSubjectRepository _bookSubjectRepository;
         private readonly IBookAuthorRepository _bookAuthorRepository;
+        protected readonly IUnitOfWork _unitOfWork;
 
-        public BookService(IBookRepository bookRepository, IBookSubjectRepository bookSubjectRepository, IBookAuthorRepository bookAuthorRepository)
+        public BookService(IBookRepository bookRepository, IBookSubjectRepository bookSubjectRepository, IBookAuthorRepository bookAuthorRepository, IUnitOfWork unitOfWork)
         {
             _bookRepository = bookRepository;
             _bookSubjectRepository = bookSubjectRepository;
             _bookAuthorRepository = bookAuthorRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<bool> CreateAsync(CreateBookRequest createBookRequest)
@@ -79,14 +82,14 @@ namespace Book.Application.Services
             {
                 var book = await _bookRepository.GetById(id);
 
-                BookDetail bok = new BookDetail();
+                BookDetail newBook = new BookDetail();
 
-                bok.Id = book.Id;
-                bok.Title = book.Title;
-                bok.Value = book.Value;
-                bok.PurchaseForm = book.PurchaseForm;
-                bok.AuthorDetails = new List<BookAuthorDetail>();
-                bok.SubjectDetails = new List<BookSubjectDetail>();
+                newBook.Id = book.Id;
+                newBook.Title = book.Title;
+                newBook.Value = book.Value;
+                newBook.PurchaseForm = book.PurchaseForm;
+                newBook.AuthorDetails = new List<BookAuthorDetail>();
+                newBook.SubjectDetails = new List<BookSubjectDetail>();
 
                 foreach (var authorDetails in book.BooksAuthor)
                 {
@@ -94,7 +97,7 @@ namespace Book.Application.Services
                     bookAuthorDetail.Id = authorDetails.Author.Id;
                     bookAuthorDetail.Name = authorDetails.Author.Name;
 
-                    bok.AuthorDetails.Add(bookAuthorDetail);
+                    newBook.AuthorDetails.Add(bookAuthorDetail);
                 }
 
                 foreach (var subjectDetails in book.BooksSubject)
@@ -103,11 +106,11 @@ namespace Book.Application.Services
                     bookAuthorDetail.Id = subjectDetails.Subject.Id;
                     bookAuthorDetail.Description = subjectDetails.Subject.Description;
 
-                    bok.SubjectDetails.Add(bookAuthorDetail);
+                    newBook.SubjectDetails.Add(bookAuthorDetail);
                 }
 
 
-                return bok;
+                return newBook;
             }
             catch (Exception ex)
             {
@@ -134,13 +137,13 @@ namespace Book.Application.Services
         {
             try
             {
+                await _unitOfWork.BeginTransactionAsync();
+
                 var bookAuthorList = await _bookAuthorRepository.Find(x => x.BookId == id);
                 var bookSubjectList = await _bookSubjectRepository.Find(x => x.BookId == id);
 
                 await _bookAuthorRepository.RemoveRange(bookAuthorList);
                 await _bookSubjectRepository.RemoveRange(bookSubjectList);
-
-
 
                 var bookToUpdate = await _bookRepository.GetById(id);
                 if (bookToUpdate == null)
@@ -169,11 +172,18 @@ namespace Book.Application.Services
                 }
 
                 await _bookRepository.Update(bookToUpdate);
+
+                await _unitOfWork.SaveChangesAndCommitAsync();
                 return true;
+            }
+            catch (DbUpdateException)
+            {
+                await _unitOfWork.RollbackAsync();
+                return false;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR BBB");
+                await _unitOfWork.RollbackAsync();
                 return false;
             }
         }
