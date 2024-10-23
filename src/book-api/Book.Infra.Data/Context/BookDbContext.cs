@@ -8,6 +8,8 @@ namespace Book.Infra.Data.Context
     {
         public BookDbContext(DbContextOptions<BookDbContext> options) : base(options)
         {
+            //this.Database.EnsureCreated();
+            this.Database.Migrate();
         }
 
         public DbSet<Books> Books { get; set; }

@@ -29,6 +29,7 @@ namespace Book.Infra.IoC
             services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<IBookAuthorRepository, BookAuthorRepository>();
             services.AddScoped<IBookSubjectRepository, BookSubjectRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
