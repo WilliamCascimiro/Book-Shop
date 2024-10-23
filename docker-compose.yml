@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  book-api:
+    container_name: book-api
+    build:
+      context: .
+      dockerfile: ./src/book-api/Book.API/Dockerfile
+    ports:
+      - "5000:8080"
+    depends_on:
+      - book-sqlserver
+
+  book-sqlserver:
+    container_name: book-sqlserver
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password1*
+    ports:
+      - "1433:1433"
+
+
+  book-front:
+    container_name: book-front
+    build:
+      context: ./src/book-front-end
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    depends_on:
+      - book-api
+      
